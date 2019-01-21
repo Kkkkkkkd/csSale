@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>每日签到</title>
+		<link rel="stylesheet" type="text/css" href="./js/layer/need/layer.css" />
+		<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+		<!--<link rel="stylesheet" href="../../static/css/calender.css">-->
+		<style type="text/css">
+			body,html{
+				/*background-color: white;*/
+			}
+			.content{
+				width: 100%;
+				/*margin-left:calc(50% - 45%) ;*/
+				background-color: white;
+				/*padding-bottom: 12px;*/
+				
+			}
+			.yj_fk{
+				font-size: 26px;
+				font-weight:bold;
+				line-height: 48px;
+				margin-bottom: 40px;
+			}
+			.fk_content{
+				
+				color:rgba(51,51,51,1);
+				line-height:16px;
+				font-size: 16px;
+				font-family:PingFangSC-Regular;
+				/*margin-bottom: 35px;*/
+				padding: 24px 0 0px 12px;
+				
+			}
+			.ipt_fk{
+				margin-top: 8px;
+				font-size: 14px;
+				color:rgba(153,153,153,1);
+				line-height:20px;
+				width: 100%;
+			}
+			.fk_pic{
+				font-size:16px;
+				font-family:PingFangSC-Regular;
+				font-weight:400;
+				color:rgba(102,102,102,1);
+				line-height:16px;
+				margin-top: 24px;
+			}
+			.btn-submit{
+				margin-top: 32px;
+				width: 100%;
+				height: 48px;
+				background:rgba(255,255,255,1);
+				border-radius:4px;
+				border:1px solid rgba(153,153,153,1);
+			}
+			.div_box{
+				border-bottom: 1px solid rgba(239,239,239,1);
+				padding-bottom: 23px;
+				/*margin-top: 23px;*/
+				display: flex;
+				justify-content: space-around;
+			}
+			.div_box>div{
+				text-align: center;
+				
+			}
+			.div_box>div p{
+				margin-top: 11px;
+			}
+			.div_box>div img{
+				/*margin-top: 35px;*/
+			}
+			.text{
+				font-size:14px;
+				font-family:PingFangSC-Regular;
+				font-weight:400;
+				color:rgba(153,153,153,1);
+				line-height:14px;
+				margin-top: 8px;
+				margin-left: 12px;
+				padding-bottom: 24px;
+			}
+			.btn_qd{
+				background:rgba(255,255,255,1);
+				border-radius:4px;
+				border:1px solid rgba(153,153,153,1);
+				height:48px;
+				width: 90%;
+				margin: auto;
+				/*margin-top:32px;*/
+				margin-left: calc(50% - 45%);
+				margin-bottom: 12px;
+			}
+			table{
+                width: 100%;
+                text-align: center;
+                margin-top:8px ;
+                background-color: white;
+            }
+            .active{
+                /*color: red;*/
+                background-color: black;
+                /*border: 1px solid black;*/
+                border-radius: 50% !important;
+                color: white;
+            }
+            .th td{
+            	font-size:14px;
+				font-family:PingFangSC-Regular;
+				font-weight:400;
+				color:rgba(102,102,102,1);
+				line-height:20px;
+            }
+            .tbody{
+            	line-height: 50px;
+            }
+            #showMonth{
+            	font-weight: bold !important;
+            	margin-top: 10px;
+            	height: 50px;
+            }
+		</style>
+	</head>
+	<body>
+		<div class="content">
+			
+			<p class="fk_content">尚未签到</p>
+			<p class="text">今日尚未签到，已连续签到2天</p>
+			<button class="btn_qd" >签到</button>
+		</div>
+		<!--<button onclick="prevMonth()">上一月</button>
+            <button onclick="nextMonth()">下一月</button>-->
+            <table>
+                <thead>
+                    <tr>
+                        <!-- 占7列 -->
+                        <td colspan="7" id="showMonth"></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid gainsboro;height: 50px;" class="th">
+                        <td>日</td>
+                        <td>一</td>
+                        <td>二</td>
+                        <td>三</td>
+                        <td>四</td>
+                        <td>五</td>
+                        <td>六</td>
+                    </th>
+                </thead>
+                <!-- 展示日期的表体 -->
+                <tbody class="tbody"></tbody>
+            </table>
+	</body>
+		<script src="./js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/jQuery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="../../static/js/calendar.js"></script>-->
+		<script type="text/javascript">
+			$('.btn_qd').click(function(){
+				console.log(111111)
+				layer.open({
+                    content: '签到成功',
+                    skin: 'msg',
+                    time: 3 //2秒后自动关闭
+                  });
+				$('.fk_content').text('今日已签到')
+				$('.text').text('已经签到2天,继续加油！')
+				$('.btn_qd').fadeOut()
+			})
+			 // 获取显示月份的容器
+            var showMonth = document.querySelector('#showMonth');
+            // 获取显示日期的容器
+            var tbody = document.getElementsByTagName('tbody')[0];
+
+            // 获取今天的日期
+            var time = new Date();
+            // alert(time.getMonth())//8
+            // alert(new Date(time.setMonth(8))); //9
+            // 上一月
+            function prevMonth(){
+                var newDate = new Date(time.setMonth(time.getMonth()-1));
+                // 先将旧的日期清空
+                tbody.innerHTML = ''
+                showDate(newDate)
+            }
+            // 下一月
+            function nextMonth(){
+                var newDate = new Date(time.setMonth(time.getMonth()+1));
+                // 先将旧的日期清空
+                tbody.innerHTML = ''
+                showDate(newDate)
+
+            }
+            // 默认先调用一次显示的函数，将今天的日期显示出来
+            showDate(time);
+            function showDate(time1){
+                var currentTime = new Date(time1);
+                var year = currentTime.getFullYear();
+                var month = currentTime.getMonth() + 1;
+                showMonth.innerHTML = year + '年' + month + '月';
+
+
+
+                // 获取本月第一天
+                var oneDateTime = new Date(currentTime.setDate(1));
+                // 变化的时间
+                var everyday = new Date(currentTime.setDate(1));
+
+                // 获取每个月第一天的星期几
+                var weekDay = oneDateTime.getDay(); //星期  5
+                // 本月1号周五，那么就有5天不属于本月，需要往前推5天
+                // 由于setDate(0)时，表示上个月的最后一天
+                // 那么setDate(-5)时，表示往前推6天，
+                // 此时需要+1，才能正确往前推5天
+                var beforeTime = new Date(oneDateTime.setDate(-weekDay+1));
+                // alert(beforeTime);
+                // 如果本月第一天为周日
+                if(weekDay==0){
+                    // 往前推7天
+                    beforeTime = new Date(oneDateTime.setDate(-6));
+                }
+                var now = new Date();
+                for(var i = 0;i<6;i++){
+                    var tr = tbody.insertRow();
+                    for(var k = 0;k<7;k++){
+                        var td = tr.insertCell();
+                        // 给当天的日 添加样式
+                        if(everyday.getFullYear() == now.getFullYear() && everyday.getMonth() == now.getMonth() && everyday.getDate() == now.getDate()  ){
+                            td.classList.add('active');
+                        }
+
+                        // 本月1号之后的日期
+                        if(weekDay == 0){
+                            if(i == 0){
+                                // 如果本月第一天是周日，那么表中第一排就展示本月1号之前的7天
+                                td.style.color = '#999';
+                                td.innerHTML = beforeTime.getDate();
+                                beforeTime.setDate(beforeTime.getDate()+1)
+                            }else{
+                                if(everyday.getMonth() != currentTime.getMonth()){
+                                    // 下个月的日期
+                                    td.style.color = '#999';
+                                }
+                                td.innerHTML = everyday.getDate();
+                                everyday.setDate(everyday.getDate()+1)
+                            }
+                        }else{
+                            // 周一  -  周六     
+                            // i= 1  k =1    4
+                            if(i * 6 + k >= weekDay){
+                                // 判断出下个月的日期
+                                if(everyday.getMonth() != currentTime.getMonth()){
+                                    td.style.color = '#999';
+                                }
+                                td.innerHTML = everyday.getDate(); 
+                                // 设置下一天
+                                everyday.setDate(everyday.getDate()+1)
+                            }else{
+                                td.style.color = '#999';
+                                td.innerHTML = beforeTime.getDate();
+                                // 设置下一天
+                                beforeTime.setDate(beforeTime.getDate()+1)
+                            }
+                        }
+                    }
+                }
+            }
+
+		</script>
+</html>

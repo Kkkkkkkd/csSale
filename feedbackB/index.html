@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>意见反馈</title>
+		<link rel="stylesheet" type="text/css" href="./js/layer/need/layer.css" />
+		<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+		<style type="text/css">
+			body,html{
+				background-color: white;
+			}
+			.content{
+				width: 90%;
+				margin-left:calc(50% - 45%) ;
+				
+			}
+			.yj_fk{
+				font-size: 26px;font-weight:  500;line-height: 48px;
+				font-weight: bold;
+			}
+			.fk_content{
+				margin-top: 40px;
+				color:rgba(102,102,102,1);
+				line-height:16px;
+				font-size: 16px;
+				font-family:PingFangSC-Regular;
+				font-weight: bold;
+			}
+			.ipt_fk{
+				margin-top: 8px;
+				font-size: 14px;
+				color:rgba(153,153,153,1);
+				line-height:20px;
+				width: 100%;
+			}
+			.fk_pic{
+				font-size:16px;
+				font-family:PingFangSC-Regular;
+				font-weight:400;
+				color:rgba(102,102,102,1);
+				line-height:16px;
+				margin-top: 24px;
+			}
+			.btn-submit{
+				margin-top: 32px;
+				width: 100%;
+				height: 48px;
+				background:rgba(255,255,255,1);
+				border-radius:4px;
+				border:1px solid rgba(153,153,153,1);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+			<p class="yj_fk">意见反馈</p>
+			<p style="" class="fk_content">反馈内容</p>
+			<input type="" name="" id="" value=""placeholder="请输入反馈内容" class="ipt_fk"/>
+			<hr style="width: 100%;color: rgba(239,239,239,1);margin-top: 23px;"/>
+			<p class="fk_pic">反馈图片</p>
+			<img src="./img/common_btn_add_photo.png" style="width: 108px;margin-top: 16px;" class="img"/>
+			<input type="file" name="file" id="file" accept="image/jpeg,image/jpg,image/png" value="" style="display: none;" />
+			<button class="btn-submit">提交</button>
+		</div>
+	</body>
+		<script src="./js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/jQuery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$('.click_file').click(function() {
+			$('#file').click()
+
+		})
+			var file 
+		$('#file').on("change", function() {
+			var formData = new FormData();
+			formData.append("file", this.files[0]);
+			var reader = new FileReader(); //创建FileReader对象 
+			reader.readAsDataURL($("#file")[0].files[0]); //利用readerDtaURL将图片读成base64
+
+			reader.onload = function(e) { 
+				file = this.result
+				$('.img').src = this.result
+			}
+
+		})
+		$('.btn-submit').click(function() {
+			var val = $('.ipt_fk').val()
+			if(val == ''){
+				layer.open({
+                    content: '请填写建议',
+                    skin: 'msg',
+                    time: 3 //2秒后自动关闭
+                  });
+			}else{
+				layer.open({
+                    content: '提交成功',
+                    skin: 'msg',
+                    time: 3 //2秒后自动关闭
+                  });
+                  $('.ipt_fk').val('')
+                  
+				//这边请求接口
+				$.ajax({
+				  url: '',
+			      type:'',
+			      data: '',
+			      dataType: "json",
+			      success:function(data){
+			      	
+			      },
+			      error:function(err){
+			      	
+			      }
+				})
+			}
+			console.log(val)
+		})
+		</script>
+</html>
